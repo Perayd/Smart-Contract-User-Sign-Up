@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blockchain MatchUp - Sign Up</title>
+</head>
+<body>
+
+  <h2>Sign Up</h2>
+  <input type="text" id="username" placeholder="Enter username" />
+  <button onclick="signUp()">Sign Up with Wallet</button>
+
+  <p id="status"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.min.js"></script>
+  <script src="signup.js"></script>
+</body>
+</html>
