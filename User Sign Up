@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract MatchUpSignup {
+
+    struct User {
+        string username;
+        bool exists;
+    }
+
+    mapping(address => User) public users;
+
+    event UserSignedUp(address user, string username);
+
+    function signUp(string memory _username) public {
+        require(!users[msg.sender].exists, "User already signed up");
+        require(bytes(_username).length > 2, "Username too short");
+
+        users[msg.sender] = User({
+            username: _username,
+            exists: true
+        });
+
+        emit UserSignedUp(msg.sender, _username);
+    }
+
+    function isSignedUp(address _user) public view returns (bool) {
+        return users[_user].exists;
+    }
+}
