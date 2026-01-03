@@ -1,0 +1,40 @@
+const contractAddress = "YOUR_CONTRACT_ADDRESS";
+const abi = [
+  "function signUp(string _username)",
+  "function isSignedUp(address _user) view returns (bool)"
+];
+
+let provider;
+let signer;
+let contract;
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    alert("MetaMask not installed");
+    return;
+  }
+
+  provider = new ethers.BrowserProvider(window.ethereum);
+  await provider.send("eth_requestAccounts", []);
+  signer = await provider.getSigner();
+  contract = new ethers.Contract(contractAddress, abi, signer);
+}
+
+async function signUp() {
+  await connectWallet();
+
+  const username = document.getElementById("username").value;
+  if (!username) {
+    alert("Enter username");
+    return;
+  }
+
+  try {
+    document.getElementById("status").innerText = "Signing up...";
+    const tx = await contract.signUp(username);
+    await tx.wait();
+    document.getElementById("status").innerText = "Signup successful!";
+  } catch (err) {
+    document.getElementById("status").innerText = err.reason || "Signup failed";
+  }
+}
